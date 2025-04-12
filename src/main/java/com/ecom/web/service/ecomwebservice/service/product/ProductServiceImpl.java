@@ -57,4 +57,28 @@ public class ProductServiceImpl implements ProductService {
         }
         
     }
+
+    public ResponseBase<ProductEntity> GetProductDetail(Integer id) {
+        var response = new ResponseBase<ProductEntity>();
+        
+        try {
+            var result = productRepository.findById(id);
+            
+            if (result.isEmpty()) {
+                response.setErrorCode("PS0002");
+                response.setErrorMessage("Product not found.");
+                return response;
+            }
+            
+            response.setData(result.get());
+            response.setErrorCode("0000");
+            response.setErrorMessage("success");
+            
+            return response;
+        } catch (Exception ex) {
+            response.setErrorCode("9999");
+            response.setErrorMessage("Exception was occured : " + ex.getMessage());
+            return response;
+        }
+    }
 }
